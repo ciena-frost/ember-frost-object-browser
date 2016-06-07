@@ -1,18 +1,11 @@
 import Ember from 'ember'
-import layout from '../templates/components/frost-object-browser'
-import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import layout from '../templates/components/frost-object-browser-button-bar'
 
 const {
-  A,
   Component
 } = Ember
 
-/**
- * @module
- * @augments ember/Component
- * @augments module:ember-prop-types
- */
-export default Component.extend(PropTypeMixin, {
+export default Component.extend({
 
   // ================================================================
   // Dependencies
@@ -22,21 +15,7 @@ export default Component.extend(PropTypeMixin, {
   // Properties
   // ================================================================
 
-  /** @type {String[]} */
-  classNames: ['frost-object-browser'],
-
-  /** @type {Object} */
   layout,
-
-  propTypes: {
-    selectedItems: PropTypes.array
-  },
-
-  getDefaultProps () {
-    return {
-      selectedItems: A([])
-    }
-  },
 
   // ================================================================
   // Computed Properties
@@ -54,27 +33,20 @@ export default Component.extend(PropTypeMixin, {
   // Actions
   // ================================================================
 
-  /**
-   * @type {Object}
-   */
   actions: {
 
     /**
-     * Handles expanding/contracting of the filters
-     *
-     * @function actions:onSelect
-     * @param {Object} item record that was just selected/deselected
-     * @returns {undefined}
+     * Change our LOD
+     * @param {String} newLevel - new level ('low', 'med', high')
      */
-    onSelect (item) {
-      const allSelected = this.get('selectedItems')
-      if (item.isSelected) {
-        allSelected.addObject(item.record)
-      } else {
-        allSelected.removeObject(item.record)
-      }
+    onDetailChange (newLevel) {
+      const onDetailChange = this.get('onDetailChange')
 
-      this.set('selectedItems', allSelected)
+      this.set('detailLevel', newLevel)
+
+      if (onDetailChange) {
+        onDetailChange(newLevel)
+      }
     }
   }
 })

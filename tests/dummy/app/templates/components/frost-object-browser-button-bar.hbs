@@ -1,0 +1,35 @@
+<div class="detail">
+  <span class="text">
+    <!-- TODO: make this a variable to support i18n better -->
+    View:
+  </span>
+  <div class="button-bar {{ detailLevel }}">
+    {{#if viewLevel.low}}
+      {{frost-button
+        disabled=(eq detailLevel 'low')
+        onClick=(action 'onDetailChange' 'low')
+        priority='tertiary'
+        size='small'
+        icon='frost/list-small'
+      }}
+    {{/if}}
+    {{#if viewLevel.medium}}
+      {{frost-button
+        disabled=(eq detailLevel 'medium')
+        onClick=(action 'onDetailChange' 'medium')
+        priority='tertiary'
+        size='small'
+        icon='frost/list-medium'
+      }}
+    {{/if}}
+    {{#if viewLevel.high}}
+      {{frost-button
+        disabled=(eq detailLevel 'high')
+        onClick=(action 'onDetailChange' 'high')
+        priority='tertiary'
+        size='small'
+        icon='frost/list-large'
+      }}
+    {{/if}}
+  </div>
+</div>

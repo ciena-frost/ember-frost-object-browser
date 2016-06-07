@@ -62,7 +62,7 @@
     "ember-test-utils": "^0.1.0",
     "ember-truth-helpers": "^1.2.0",
     "ember-try": "^0.2.0",
-    "eslint": "^2.9.0",
+    "eslint": "^2.10.2",
     "eslint-config-frost-standard": "^2.0.0",
     "liquid-fire": ">=0.23.0 <2.0.0",
     "loader.js": "^4.0.1",

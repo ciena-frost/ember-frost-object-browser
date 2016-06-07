@@ -1,0 +1,29 @@
+{{yield}}
+{{#yield-slot 'controls'}}
+  <div class="tools">
+    <div class="sort"/>
+    {{yield (block-params
+      (hash
+        pagination=(component
+        'frost-object-browser-paginator'
+          itemsPerPage=itemsPerPage
+          _pageNumber=(mut (get this '_pageNumber'))
+          pageNumber=(get this 'pageNumber')
+          length=(get this 'length')
+          values=(get this 'values')
+          valuesTotal=(get this 'valuesTotal')
+        )
+        expansion=(component
+        'frost-object-browser-button-bar'
+          detailLevel=detailLevel
+          viewLevel=viewSchema
+        )
+      )
+    )}}
+  </div>
+{{/yield-slot}}
+{{#yield-slot 'view'}}
+  {{yield (block-params
+    this
+  )}}
+{{/yield-slot}}

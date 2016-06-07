@@ -1,18 +1,16 @@
 import Ember from 'ember'
-import layout from '../templates/components/frost-object-browser'
-import PropTypeMixin, {PropTypes} from 'ember-prop-types'
+import layout from '../templates/components/frost-object-browser-action-bar'
 
 const {
-  A,
-  Component
+  Component,
+  computed
 } = Ember
 
 /**
  * @module
  * @augments ember/Component
- * @augments module:ember-prop-types
  */
-export default Component.extend(PropTypeMixin, {
+export default Component.extend({
 
   // ================================================================
   // Dependencies
@@ -22,25 +20,34 @@ export default Component.extend(PropTypeMixin, {
   // Properties
   // ================================================================
 
-  /** @type {String[]} */
-  classNames: ['frost-object-browser'],
-
   /** @type {Object} */
   layout,
 
-  propTypes: {
-    selectedItems: PropTypes.array
-  },
-
-  getDefaultProps () {
-    return {
-      selectedItems: A([])
-    }
-  },
+  /** @type {Boolean} */
+  multiSelect: false,
 
   // ================================================================
   // Computed Properties
   // ================================================================
+
+  /**
+   * Whether the button should be disabled
+   *
+   * @function
+   * @returns {Boolean}
+   */
+  isDisabled: computed(
+    'selectedItems.[]',
+    function () {
+      const length = this.get('selectedItems.length')
+
+      if (this.get('multiSelect')) {
+        return length < 1
+      } else {
+        return length !== 1
+      }
+    }
+  ),
 
   // ================================================================
   // Functions
@@ -62,19 +69,20 @@ export default Component.extend(PropTypeMixin, {
     /**
      * Handles expanding/contracting of the filters
      *
-     * @function actions:onSelect
-     * @param {Object} item record that was just selected/deselected
+     * @function actions:onActionClick
+     * @param {ember/Array} selectedItems The selected items
      * @returns {undefined}
      */
-    onSelect (item) {
-      const allSelected = this.get('selectedItems')
-      if (item.isSelected) {
-        allSelected.addObject(item.record)
-      } else {
-        allSelected.removeObject(item.record)
-      }
+    onActionClick (selectedItems) {
+      const onActionClick = this.get('onActionClick')
 
-      this.set('selectedItems', allSelected)
+      if (onActionClick) {
+        onActionClick(selectedItems)
+
+        if (this.get('text').toLowerCase().indexOf('delete') !== -1) {
+          selectedItems.clear()
+        }
+      }
     }
   }
 })

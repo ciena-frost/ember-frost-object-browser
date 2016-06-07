@@ -1,57 +1,35 @@
 {{yield}}
-<div class="frost-info-bar">
-  <div class="title">
-    {{#yield-slot 'info-bar'}}
-      {{yield (block-params this)}}
-    {{/yield-slot}}
-  </div>
-  <div class="top-buttons" background-color='red'>
-    {{#yield-slot 'app-actions'}}
-      {{yield (block-params (action 'onCreate'))}}
-    {{/yield-slot}}
-  </div>
-</div>
+{{#yield-slot 'info-bar'}}
+  {{yield}}
+{{/yield-slot}}
 <div class="body">
   {{#yield-slot 'filters'}}
-    {{yield (block-params filters onFilter)}}
+    {{yield}}
   {{/yield-slot}}
   <div class="content">
-    <div class="tools">
-      <div class="sort"/>
-        {{#yield-slot 'pagination'}}
-          <div class="pagination">
-            {{yield (block-params
-              (hash control=(component
-                'frost-object-browser-paginator'
-                  itemsPerPage=itemsPerPage
-                  page=computedPageNumber
-                  total=computedValuesTotal
-                )
-              )
-              (action 'onPageChanged')
-            )}}
-          </div>
-        {{/yield-slot}}
-      <div class="detail">
-        <span class="text">
-          <!-- TODO: make this a variable to support i18n better -->
-          View:
-        </span>
-        {{#yield-slot 'view-controls'}}
-          {{yield (block-params this viewSchema (action 'onDetailChange'))}}
-        {{/yield-slot}}
-      </div>
-    </div>
-    {{#yield-slot 'objects'}}
-      {{yield (block-params this (action 'onSelect'))}}
+    {{#yield-slot 'view'}}
+      {{yield (block-params
+        (hash
+          selectedItems=(get this 'selectedItems')
+        )
+        (action 'onSelect')
+      )}}
     {{/yield-slot}}
-
-
-
-    <div class="actions">
-      {{#yield-slot 'object-actions'}}
-        {{yield 'actions'}}
-      {{/yield-slot}}
-    </div>
+    {{#yield-slot 'actions'}}
+      <div class="actions">
+        {{yield (block-params
+          (hash
+            button=(component
+            'frost-object-browser-action-bar'
+              multiSelect=multiSelect
+              onActionClick=(action onActionClick)
+              priority='secondary'
+              selectedItems=(get this 'selectedItems')
+              size='large'
+            )
+          )
+        )}}
+      </div>
+    {{/yield-slot}}
   </div>
 </div>

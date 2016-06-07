@@ -1,100 +1,8 @@
-import _ from 'lodash'
+import Ember from 'ember'
 import {expect} from 'chai'
 import {describeComponent, it} from 'ember-mocha'
-import wait from 'ember-test-helpers/wait'
 import hbs from 'htmlbars-inline-precompile'
-import dummyData from './dummyInput'
 import { initialize } from 'ember-block-slots/initializers/component-block-slots'
-
-const viewSchema = {
-  low: {
-    'version': '1.0',
-    'type': 'form',
-    'rootContainers': [
-      {'label': 'Main', 'container': 'main'}
-    ],
-    'containers': [
-      {
-        'id': 'main',
-        'className': 'flex-row',
-        'rows': [
-          [
-            {'model': 'alias', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'}
-          ],
-          [
-            {
-              'model': 'updatedAt',
-              'label': 'Last Updated',
-              'labelClassName': 'ob-label',
-              'inputClassName': 'ob-input'
-            }
-          ]
-        ]
-      }
-    ]
-  },
-  medium: {
-    'version': '1.0',
-    'type': 'form',
-    'rootContainers': [
-      {'label': 'Main', 'container': 'main'}
-    ],
-    'containers': [
-      {
-        'id': 'main',
-        'className': 'flex-row',
-        'rows': [
-          [
-            {'model': 'alias', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'},
-            {'model': 'value', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'}
-          ],
-          [
-            {
-              'model': 'updatedAt',
-              'label': 'Last Updated',
-              'labelClassName': 'ob-label',
-              'inputClassName': 'ob-input'
-            }
-          ]
-        ]
-      }
-    ]
-  },
-  high: {
-    'version': '1.0',
-    'type': 'form',
-    'rootContainers': [
-      {'label': 'Main', 'container': 'main'}
-    ],
-    'containers': [
-      {
-        'id': 'main',
-        'className': 'flex-row',
-        'rows': [
-          [
-            {'model': 'alias', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'},
-            {'model': 'value', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'}
-          ],
-          [
-            {
-              'model': 'updatedAt',
-              'label': 'Last Updated',
-              'labelClassName': 'ob-label',
-              'inputClassName': 'ob-input'
-            },
-            {'model': 'id', 'labelClassName': 'ob-label', 'inputClassName': 'ob-input'}
-          ]
-        ]
-      }
-    ]
-  }
-}
-
-const resources = _.map(dummyData.resources, (resource) => {
-  return Ember.Object.create(resource)
-})
-
-const model = {resources: Ember.A(resources), model: dummyData.model}
 
 describeComponent(
   'frost-object-browser',
@@ -110,46 +18,95 @@ describeComponent(
         application = Ember.Application.create()
         container = application.__container__
         application.deferReadiness()
-        this.setProperties({
-          model,
-          viewSchema
-        })
       })
       initialize(container, application)
     })
 
-    it('renders', function () {
-      this.timeout(8000)
-      this.render(hbs`{{frost-object-browser
-        values=model.resources
-        model=model.model
-      }}`)
-      expect(this.$()).to.have.length(1)
+    it('renders default values', function () {
+      this.render(hbs`
+        {{frost-object-browser}}
+      `)
+
+      expect(
+        this.$('.frost-object-browser'),
+        'Has class "frost-object-browser"'
+      ).to.have.length(1)
     })
 
-    it('it changes page when we click to next change button', function () {
-      this.timeout(8000)
-
+    it('it yields the "info-bar" slot', function () {
       this.render(hbs`
-        {{#frost-object-browser
-          itemsPerPage=6
-          values=model.resources
-          model=model.model
-         as |slot|}}
-          {{#block-slot slot 'pagination' as |paginator onPageChanged|}}
-            {{paginator.control
-              onPageChanged=(action onPageChanged)
-            }}
+        {{#frost-object-browser as |slot|}}
+          {{#block-slot slot 'info-bar'}}
+            Some yielded text
           {{/block-slot}}
         {{/frost-object-browser}}
       `)
 
-      this.$().find('.pagination .button-bar.right button').eq(0).click()
+      expect(
+        this.$().text().trim(),
+        'Text shows in the "info-bar" yielded slot'
+      ).to.eql('Some yielded text')
+    })
 
-      return wait()
-        .then(() => {
-          expect(this.$().find('.pagination').text().trim()).to.equal('7 to 12 of 20')
-        })
+    it('it yields the "filters" slot', function () {
+      this.render(hbs`
+        {{#frost-object-browser as |slot|}}
+          {{#block-slot slot 'filters'}}
+            Some yielded text
+          {{/block-slot}}
+        {{/frost-object-browser}}
+      `)
+
+      expect(
+        this.$().text().trim(),
+        'Text shows in the "filters" yielded slot'
+      ).to.eql('Some yielded text')
+    })
+
+    it('it yields the "view" slot', function () {
+      this.render(hbs`
+        {{#frost-object-browser as |slot|}}
+          {{#block-slot slot 'view'}}
+            Some yielded text
+          {{/block-slot}}
+        {{/frost-object-browser}}
+      `)
+
+      expect(
+        this.$().text().trim(),
+        'Text shows in the "view" yielded slot'
+      ).to.eql('Some yielded text')
+    })
+
+    it('it yields the "actions" slot', function () {
+      this.render(hbs`
+        {{#frost-object-browser as |slot|}}
+          {{#block-slot slot 'actions'}}
+            Some yielded text
+          {{/block-slot}}
+        {{/frost-object-browser}}
+      `)
+
+      expect(
+        this.$().text().trim(),
+        'Text shows in the "actions" yielded slot'
+      ).to.eql('Some yielded text')
+    })
+
+    it('it yields a button contextual component in the "actions" slot', function () {
+      this.on('test-action', function () {})
+
+      this.render(hbs`
+        {{#frost-object-browser as |slot|}}
+          {{#block-slot slot 'actions'as |action|}}
+            {{action.button onActionClick=(action 'test-action')}}
+          {{/block-slot}}
+        {{/frost-object-browser}}
+      `)
+
+      expect(this.$('button'),
+        'button tag exists'
+      ).to.have.length(1)
     })
   }
 )

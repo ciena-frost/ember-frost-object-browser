@@ -1,14 +1,6 @@
 import Ember from 'ember'
 
 export default Ember.Controller.extend({
-  selected: {},
-  selectedItems: [],
-  actionBarItems: [
-    {label: 'Details', id: 'details', enabled: false},
-    {label: 'Delete', id: 'delete', enabled: false},
-    {label: 'Edit', id: 'edit', enabled: false}
-  ],
-
   viewSchema: {
     low: {
       'version': '1.0',
@@ -138,50 +130,7 @@ export default Ember.Controller.extend({
       window.alert('One does not merely create things')
     },
 
-    onOptionSelected () {
-      let selected = this.get('selected')
-      console.log('Facet changed')
-      const facet = arguments[0]
-      if (facet.value.length === 0) {
-        delete selected[facet.id]
-      } else {
-        selected[facet.id] = facet.value
-      }
-      this.set('selected', selected)
-    },
-
-    onRowSelect (allSelected, newSelected, deSelected) {
-      let actionBarItems
-
-      if (allSelected.length === 1) {
-        actionBarItems = [
-          {label: 'Details', id: 'details', enabled: true},
-          {label: 'Delete', id: 'delete', enabled: true},
-          {label: 'Edit', id: 'edit', enabled: true}
-        ]
-      } else if (allSelected.length > 1) {
-        actionBarItems = [
-          {label: 'Details', id: 'details', enabled: false},
-          {label: 'Delete', id: 'delete', enabled: true},
-          {label: 'Edit', id: 'edit', enabled: false}
-        ]
-      } else {
-        actionBarItems = [
-          {label: 'Details', id: 'details', enabled: false},
-          {label: 'Delete', id: 'delete', enabled: false},
-          {label: 'Edit', id: 'edit', enabled: false}
-        ]
-      }
-
-      this.setProperties({
-        actionBarItems,
-        selectedItems: allSelected
-      })
-    },
-
-    onActionClick (buttonId) {
-      const selectedItems = this.get('selectedItems')
-
+    onActionClick (buttonId, selectedItems) {
       if (buttonId === 'delete') {
         selectedItems.forEach((item) => {
           item.destroyRecord()

@@ -1,95 +1,67 @@
-{{#frost-object-browser
-  itemsPerPage=6
-  model=model.model
-  onCreate=(action 'onCreate')
-  onDetailChange=(action 'onDetailChange')
-  onFacetChange=(action 'onOptionSelected')
-  onRowSelect=(action 'onRowSelect')
-  title='Resources'
-  subtitle='L3VPN Services'
-  values=model.resources
-  viewSchema=viewSchema
-  filters=filters
-as |slot|}}
-  {{#block-slot slot 'app-actions' as |onCreate|}}
-    {{frost-button
-      icon='frost/infobar-create'
-      onClick=(action onCreate)
-      priority='tertiary'
-      size='medium'
-      text='Create'
-      vertical=true
-    }}
+{{#frost-object-browser as |slot|}}
+  {{#block-slot slot 'info-bar'}}
+    {{#frost-info-bar as |slot|}}
+      {{#block-slot slot 'title'}}
+        Resources
+      {{/block-slot}}
+      {{#block-slot slot 'summary'}}
+        {{model.resources.length}} - L3VPN Services
+      {{/block-slot}}
+      {{#block-slot slot 'actions' as |action|}}
+        {{action.button
+          icon='frost/infobar-create'
+          onClick=(action 'onCreate')
+          text='Create'
+        }}
+      {{/block-slot}}
+    {{/frost-info-bar}}
   {{/block-slot}}
-  {{#block-slot slot 'filters' as |filters onFilter|}}
+  {{#block-slot slot 'filters'}}
     {{frost-object-browser-filter filters=filters onFilter=onFilter}}
   {{/block-slot}}
-  {{#block-slot slot 'info-bar' as |infoBar|}}
-    <div class="primary-title">
-      {{infoBar.title}}
-    </div>
-    <div class="sub-title">
-      {{infoBar.summary}}
-    </div>
-  {{/block-slot}}
-  {{#block-slot slot 'objects' as |object onSelect|}}
-    {{#frost-list onSelect=(action onSelect) selections=object.selectedItems records=object.computedValues as |record|}}
-      {{#frost-object-browser-list-item model=record as |value|}}
-        {{frost-bunsen-detail
-          bunsenModel=object.model
-          bunsenView=object.computedViewLevel
-          renderers=object.renderers
-          value=value
+  {{#block-slot slot 'view' as |selections onSelect|}}
+    {{#frost-object-browser-content
+      detailLevel='high'
+      itemsPerPage=6
+      model=model.model
+
+      values=model.resources
+      viewSchema=viewSchema
+    as |slot|}}
+      {{#block-slot slot 'controls' as |control|}}
+        {{control.pagination}}
+        {{control.expansion
+          onDetailChange=(action 'onDetailChange')
         }}
-      {{/frost-object-browser-list-item}}
-    {{/frost-list}}
+      {{/block-slot}}
+      {{#block-slot slot 'view' as |display|}}
+        {{#frost-list onSelect=(action onSelect) selections=selections.selectedItems records=display.computedValues as |record|}}
+          {{#frost-object-browser-list-item model=record detailLevel=display.detailLevel as |value|}}
+            {{frost-bunsen-detail
+              bunsenModel=display.model
+              bunsenView=display.computedViewLevel
+              renderers=display.renderers
+              value=value
+            }}
+          {{/frost-object-browser-list-item}}
+        {{/frost-list}}
+      {{/block-slot}}
+    {{/frost-object-browser-content}}
   {{/block-slot}}
-  {{#block-slot slot 'object-actions'}}
-    {{#each actionBarItems as |actionBarItem|}}
-      {{#frost-button
-        disabled=(not actionBarItem.enabled)
-        onClick=(action 'onActionClick' actionBarItem.id)
-        priority='secondary'
-        size='large'
-      }}
-        <div class="text">{{actionBarItem.label}}</div>
-      {{/frost-button}}
-    {{/each}}
-  {{/block-slot}}
-  {{#block-slot slot 'pagination' as |paginator onPageChanged|}}
-    {{paginator.control
-      onPageChanged=(action onPageChanged)
+  {{#block-slot slot 'actions' as |action|}}
+    {{action.button
+      onActionClick=(action 'onActionClick' 'details')
+      multiSelect=true
+      text='Details'
     }}
-  {{/block-slot}}
-  {{#block-slot slot 'view-controls' as |viewControl viewLevel onDetailChange|}}
-    <div class="button-bar {{ viewControl.detailLevel }}">
-    {{#if viewLevel.low}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'low')
-        onClick=(action onDetailChange 'low')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-small'
-      }}
-    {{/if}}
-    {{#if viewLevel.medium}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'medium')
-        onClick=(action onDetailChange 'medium')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-medium'
-      }}
-    {{/if}}
-    {{#if viewLevel.high}}
-      {{frost-button
-        disabled=(eq viewControl.detailLevel 'high')
-        onClick=(action onDetailChange 'high')
-        priority='tertiary'
-        size='small'
-        icon='frost/list-large'
-      }}
-    {{/if}}
-    </div>
+    {{action.button
+      onActionClick=(action 'onActionClick' 'delete')
+      multiSelect=true
+      text='delete item'
+    }}
+    {{action.button
+      onActionClick=(action 'onActionClick' 'edit')
+      text='Edit'
+    }}
   {{/block-slot}}
 {{/frost-object-browser}}
