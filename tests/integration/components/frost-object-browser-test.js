@@ -80,7 +80,7 @@ describeComponent(
       expect(
         this.$().text().trim().replace(/ +/g, ' '),
         'Text shows in the "actions" yielded slot'
-      ).to.eql('items selected\n Some yielded text')
+      ).to.eql('0 items selected\n Some yielded text')
     })
 
     it('it yields a button contextual component in the "actions" slot', function () {
