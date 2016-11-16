@@ -10,6 +10,10 @@ module.exports = {
   },
 
   init: function (app) {
+    if (this._super.init) {
+      this._super.init.apply(this, arguments)
+    }
+
     this.options = this.options || {}
     this.options.babel = this.options.babel || {}
     this.options.babel.optional = this.options.babel.optional || []

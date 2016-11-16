@@ -51,7 +51,7 @@ deploy:
   api_key:
     secure: XiEdGMKhQEedVZJPPvcnUEX3RjXW8DQiJxvy5e3BRHNwMB/ARqVkagZF6imOYwGk59V/7nLw4awDPhU+9TjsyOz+Xo90VmtM3vK80D5tm9jkGY7GWxDrRk3yPBcqcGZbygiu8vlbSes6wXl6jGdnClQAJnMZI/WBYyyTaGJDEgKUo4hhME6S+iDVM9Im6TFM7DQdVPNP7A8nu/uhzE71Xb5SyvI+4XYY4V6E00P7auOTTnzYNjCSt6B51ucQo3X/b3stbWAEpwPpdAw0trR62djykNJJtUd3YP6hNwyfgMhFSDOu19J9DPWSPIBGH2vQZ4v4OBd5o8jpBM3XcmpceN7bPtdX08i5lDZsdzv7QQvTUbImatMKOrWbeNeMqhVC/vdHqyabGKC6UaLReVkFcfBQWmGGmzlhQq30iB1mNIMME2ZSUP0lDsMIpzpz6qbVNjhllpeX3PEXu3oth8DkJ6SLNSQU4J5iI//z+/0p0GLF+yGSps/Ofa1SsRvsMmKoyyX10G42FeVUB/SZdKMijNbuN/z2xIHIOmFV3VN/t7+wIvR1eAjQe8RKEwH0p5IyNMwjRDPpjZYcY4MpkAOT4ea5VbnR6qtU2JaiD4T93hp1/Ic3/GY4kerv6SPXcrm/cedSiCI6lB2lVSWqGa078B5vk8NMsB5bf0/1mD6Q9x0=
   on:
-    branch: master
+    branch: 13.0.x
     condition: "$EMBER_TRY_SCENARIO = 'default'"
     node: 'stable'
     tags: false
