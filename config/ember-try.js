@@ -1,19 +1,36 @@
+/* eslint-env node */
+
 module.exports = {
   scenarios: [
     {
-      name: 'default',
+      name: 'ember-lts-2.8',
       bower: {
-        dependencies: { }
+        dependencies: {
+          'ember': 'components/ember#lts-2-8'
+        },
+        resolutions: {
+          'ember': 'lts-2-8'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
-      name: 'ember-2-8',
+      name: 'ember-lts-2.12',
       bower: {
         dependencies: {
-          'ember': '~2.8.0'
+          'ember': 'components/ember#lts-2-12'
         },
         resolutions: {
-          'ember': '~2.8.0'
+          'ember': 'lts-2-12'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -26,6 +43,11 @@ module.exports = {
         resolutions: {
           'ember': 'release'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
       }
     },
     {
@@ -36,6 +58,11 @@ module.exports = {
         },
         resolutions: {
           'ember': 'beta'
+        }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
         }
       }
     },
@@ -48,6 +75,17 @@ module.exports = {
         resolutions: {
           'ember': 'canary'
         }
+      },
+      npm: {
+        devDependencies: {
+          'ember-source': null
+        }
+      }
+    },
+    {
+      name: 'ember-default',
+      npm: {
+        devDependencies: {}
       }
     }
   ]

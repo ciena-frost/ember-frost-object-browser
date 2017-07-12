@@ -1,8 +1,0 @@
-{
-  "globals": {
-    "chai": true,
-    "Ember": true,
-    "beforeEach": true,
-    "afterEach": true,
-  }
-}

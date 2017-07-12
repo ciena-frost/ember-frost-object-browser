@@ -1,6 +1,0 @@
-{
-  "extends": ["frost-standard"],
-  "rules": {
-    "valid-jsdoc": [0]
-  }
-}
