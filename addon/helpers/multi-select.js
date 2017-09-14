@@ -15,7 +15,7 @@ export default Helper.extend({
   },
   setupRecompute (selectedItems, property) {
     if (this.teardown) this.teardown()
-    var path = '@each.id'
+    var path = '[]'
     selectedItems.addObserver(path, this, this.recompute)
     this.teardown = () => {
       selectedItems.removeObserver(path, this, this.recompute)
