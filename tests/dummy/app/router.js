@@ -12,6 +12,8 @@ Router.map(function () {
   this.route('helpers')
   this.route('client')
   this.route('client-code')
+  this.route('client-typed')
+  this.route('client-typed-code')
   this.route('server')
   this.route('server-code')
 })

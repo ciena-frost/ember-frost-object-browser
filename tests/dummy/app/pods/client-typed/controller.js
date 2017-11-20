@@ -1,5 +1,5 @@
 import Ember from 'ember'
-const {A, Controller, get, inject, isEmpty} = Ember
+const {A, Controller, get, inject, isEmpty, isPresent, run} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'
 import {generateFacetView} from 'ember-frost-bunsen/utils'
 import {sort} from 'ember-frost-sort'
@@ -17,6 +17,7 @@ export default Controller.extend({
 
   // == Properties ============================================================
 
+  expandedItems: [],
   filters: {},
   filterModel: {
     type: 'object',
@@ -29,7 +30,9 @@ export default Controller.extend({
     {label: 'Id', model: 'id'},
     {label: 'Label', model: 'label'}
   ]),
+  isLoading: false,
   itemsPerPage: 10,
+  loadingText: 'Loading actions',
   page: 0,
   scrollTop: 0,
   selectedItems: [],
@@ -39,6 +42,44 @@ export default Controller.extend({
     {label: 'Label', value: 'label'}
   ],
   totalItems: 100, // Typically extracted from meta on the request
+  componentKeyNames: {
+    controls: 'controlNames'
+  },
+  componentKeyNamesForTypes: {
+    a: {
+      itemName: 'list-item',
+      itemExpansionName: 'list-item-expansion',
+      controlNames: [
+        'singleSelect'
+      ]
+    },
+    b: {
+      itemName: 'list-item',
+      itemExpansionName: 'list-item-expansion',
+      controlNames: [
+        'multiSelect',
+        'includesF'
+      ]
+    },
+    c: {
+      itemName: 'list-item',
+      itemExpansionName: 'list-item-expansion',
+      controlNames: [
+        'includesF'
+      ]
+    },
+    d: {
+      itemName: 'list-item',
+      itemExpansionName: 'list-item-expansion',
+      controlNames: [
+        'detailsButton'
+      ]
+    },
+    default: {
+      itemName: 'list-item',
+      itemExpansionName: 'list-item-expansion'
+    }
+  },
 
   // == Computed Properties ===================================================
 
@@ -95,12 +136,16 @@ export default Controller.extend({
     })
   },
 
+  doneLoading () {
+    this.set('isLoading', false)
+  },
+
   // == Ember Lifecycle Hooks =================================================
 
   // == Actions ===============================================================
 
   actions: {
-    // BEGIN-SNIPPET client-controller
+    // BEGIN-SNIPPET client-typed-controller
     onExpansionChange (expandedItems) {
       this.get('expandedItems').setObjects(expandedItems)
     },
@@ -129,6 +174,14 @@ export default Controller.extend({
 
     onSelectionChange (selectedItems) {
       this.get('selectedItems').setObjects(selectedItems)
+      if (isPresent(selectedItems)) {
+        this.set('isLoading', true)
+        this.get('notifications').success('Set isLoading flag to true', {
+          autoClear: true,
+          clearDuration: 2000
+        })
+        run.debounce(this, this.doneLoading, 2000)
+      }
     },
 
     onSortingChange (sortOrder) {
@@ -136,20 +189,6 @@ export default Controller.extend({
       this.store.unloadAll('list-item')
       this.get('selectedItems').clear()
       this.fetchPage(0)
-    },
-
-    displayFilter () {
-      this.get('notifications').success('Display filter section', {
-        autoClear: true,
-        clearDuration: 2000
-      })
-    },
-
-    hideFilter () {
-      this.get('notifications').success('Hide filter section', {
-        autoClear: true,
-        clearDuration: 2000
-      })
     }
     // END-SNIPPET
   }

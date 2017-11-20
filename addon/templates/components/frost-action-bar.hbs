@@ -2,8 +2,17 @@
 <div class='{{css}}-selections'>
   {{selectedItemsLabel}}
 </div>
+<div class='{{css}}-loading'>
+  {{#if isLoading}}
+    {{frost-loading
+      hook=(concat hookPrefix '-loading')
+      type='ring'
+    }}
+    <div class='loading-text'>{{loadingText}}</div>
+  {{/if}}
+</div>
 <div class='{{css}}-buttons'>
-  {{#each controls as |control|}}
+  {{#each _controls as |control|}}
     {{component control}}
   {{/each}}
 </div>

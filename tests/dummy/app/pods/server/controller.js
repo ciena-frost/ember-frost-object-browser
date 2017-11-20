@@ -1,7 +1,3 @@
-/**
- * TODO
- */
-
 import Ember from 'ember'
 const {A, Controller, inject, isEmpty} = Ember
 import computed, {readOnly} from 'ember-computed-decorators'

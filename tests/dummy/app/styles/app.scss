@@ -1,5 +1,6 @@
 @import 'node_modules/ember-frost-core/addon/styles/frost-theme';
 @import 'tests/dummy/app/pods/components/list-item/styles';
+@import 'tests/dummy/app/pods/components/list-item-typed/styles';
 @import 'tests/dummy/app/pods/components/list-item-expansion/styles';
 
 .frost-modal-demo {
@@ -32,6 +33,7 @@
 
 .frost-modal-demo-selectors {
   min-width: 100px;
+  max-width: 300px;
   height: calc(100vh - 61px);
   margin: 10px 0 10px 10px;
   padding-right: 20px;
@@ -75,6 +77,10 @@
 
 .frost-modal-demo-example {
   width: 100%;
+}
+
+.frost-object-browser {
+  height: 100vh;
 }
 
 @import 'ember-frost-bunsen';

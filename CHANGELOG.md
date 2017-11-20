@@ -1,3 +1,44 @@
+# 18.1.0 (2017-11-20)
+
+* Added support for displaying a loading animation in the action bar
+
+
+# 18.0.0 (2017-11-15)
+This changeset resets ember-frost addons to Ember CLI 2.12.3 versions
+* **Updated** version of `ember-frost-core` 
+* **Updated** version of `ember-frost-fields`
+* **Updated** version of `ember-frost-info-bar`
+* **Updated** version of `ember-frost-list`
+* **Updated** version of `ember-frost-popover`
+* **Updated** version of `ember-frost-sort`
+* **Updated** version of `ember-frost-tabs` 
+* **Updated** version of `ember-prop-types`
+* **Updated** version of `ember-spread`
+
+# 17.3.3 (2017-11-14)
+* **Updated** version of `ember-frost-bunsen`
+* **Removed** `ember-frost-date-picker` as it is now provided via `ember-frost-bunsen` dependencies
+* **Removed** `ember-pikaday-shim` as it is now provided via `ember-frost-date-picker` dependencies
+* **Removed** `pikaday` as it is now provided via `ember-pikaday-shim` dependencies
+
+
+# 17.3.2 (2017-11-14)
+* Remove unused `ember-simple-uuid` dependency
+
+# 17.3.1 (2017-11-14)
+* #139 - Bind context to call of this._super.included() in index.js
+
+# 17.3.0 (2017-10-26)
+* **Updated** the style for filter header section.
+* **Added** new interface `isFilterHiddenOnLoad`. When it sets to true, filter section will be hidden on load.
+* **Added** new interface `onFilterDisplay`. If consumer subscribes to the event, callback will be called when expanding the filter section.
+* **Added** new interface `onFilterHide`. If consumer subscribes to the event, callback will be called when collapsing the filter section.
+* **Added**  `filter.svg` and `filter-arrow` under `frost-object-browser` icon pack.
+
+# 17.2.0 (2017-10-23)
+* **Added** ability for object browser to render list list items with different types
+* **Added** ability for action bar to show certain controls based on list item type
+
 # 17.1.3 (2017-08-11)
 * **Updated** ember-cli 2.12.3 inter-dependencies
 * **Updated** pin `ember-cli-htmlbars-inline-precompile` per issue: https://github.com/ciena-frost/ember-frost-core/issues/488

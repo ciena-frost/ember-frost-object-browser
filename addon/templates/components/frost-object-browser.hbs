@@ -1,18 +1,54 @@
 {{#if filters}}
   <div class='{{css}}-facets'>
-    <div class='{{css}}-facets-header'>
-      {{i18n.refineByLabel}}
+    <div class='{{css}}-facets-expanded-view' data-test={{hook (concat hookPrefix '-facets-expanded-view')}}>
+      <div
+        class='facets-collapse-control'
+        data-test={{hook (concat hookPrefix '-facets-collapse-control')}}
+        role='button'
+        {{action (action 'collapseFilter')}}
+      >
+        {{frost-icon
+          hook='facets-collapse'
+          pack='frost-object-browser'
+          icon='filter-arrow'
+        }}
+      </div>
+      <div class='{{css}}-facets-header'>
+        {{i18n.refineByLabel}}
+        {{frost-icon
+          hook='facets-header'
+          pack='frost-object-browser'
+          icon='filter'
+        }}
+      </div>
+      <div class='{{css}}-facets-horizontal-divider'></div>
+      {{#frost-scroll
+        class=(concat css '-facets-body')
+        hook=(concat hookPrefix '-scroll')
+        hookQualifiers=hookQualifiers
+        onMouseEnter=(action 'onMouseEnterHandler')
+      }}
+        {{component filters}}
+      {{/frost-scroll}}
     </div>
-    {{#frost-scroll
-      class=(concat css '-facets-body')
-      hook=(concat hookPrefix '-scroll')
-      hookQualifiers=hookQualifiers
-      onMouseEnter=(action 'onMouseEnterHandler')
-    }}
-      {{component filters}}
-    {{/frost-scroll}}
+
+    <div class='{{css}}-facets-collapsed-view' data-test={{hook (concat hookPrefix '-facets-collapsed-view')}}>
+      <div
+        class='facets-expand-control'
+        data-test={{hook (concat hookPrefix '-facets-expand-control')}}
+        role='button'
+        {{action (action 'expandFilter')}}
+      >
+        {{frost-icon
+          hook='facets-expand'
+          pack='frost-object-browser'
+          icon='filter'
+        }}
+      </div>
+    </div>
   </div>
 {{/if}}
+
 <div class='{{css}}-content'>
   {{component content}}
   {{component controls}}
