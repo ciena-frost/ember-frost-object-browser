@@ -26,7 +26,7 @@ export default Component.extend({
         refineByLabel: 'Refine by'
       }
     }
-  }
+  },
 
   // == Computed Properties ===================================================
 
@@ -37,4 +37,10 @@ export default Component.extend({
   // == DOM Events ============================================================
 
   // == Actions ===============================================================
+  actions: {
+    onMouseEnterHandler (element) {
+      debugger
+      window.Ps.update(element)
+    }
+  }
 })
