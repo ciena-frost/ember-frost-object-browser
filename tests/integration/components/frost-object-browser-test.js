@@ -1,4 +1,6 @@
 import {expect} from 'chai'
+import Ember from 'ember'
+const {$} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
@@ -228,6 +230,33 @@ describe(test.label, function () {
       $hook('myObjectBrowser-facets-expand-control').click()
 
       expect(displayFilter).to.have.callCount(1)
+    })
+  })
+
+  describe('when user mouse enters/exists the facets area', function () {
+    const myHook = 'myHook'
+    const filterHook = 'filterHook'
+
+    beforeEach(function () {
+      this.set('myHook', myHook)
+      this.set('filterHook', filterHook)
+
+      return this.render(hbs`
+        {{frost-object-browser
+          hook=myHook
+          content=(component 'mock-content' class='mock-content')
+          controls=(component 'mock-controls' class='mock-controls')
+          filters=(component 'mock-filters' class='mock-filters' hook=filterHook)
+        }}
+      `)
+    })
+
+    it('should call the handler displayFilter', function () {
+      $hook(filterHook).css('padding-left', '10px')
+      $hook(filterHook).css('padding-bottom', '1500px')
+
+      $hook(myHook + '-scroll').trigger('mouseenter')
+      expect($hook(myHook + '-scroll').find('.ps-scrollbar-y').height()).to.be.at.least(1)
     })
   })
 })
