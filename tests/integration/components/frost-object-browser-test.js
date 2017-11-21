@@ -1,6 +1,5 @@
 import {expect} from 'chai'
 import Ember from 'ember'
-const {$} = Ember
 import {$hook, initialize as initializeHook} from 'ember-hook'
 import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
