@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {$hook, initialize as initializeHook} from 'ember-hook'
+import wait from 'ember-test-helpers/wait'
 import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
 import hbs from 'htmlbars-inline-precompile'
@@ -247,8 +248,11 @@ describe(test.label, function () {
           filters=(component 'mock-filters' class='mock-filters' hook=filterHook)
         }}
       `)
-      $hook(filterHook).css('padding-left', '10px')
-      $hook(filterHook).css('padding-bottom', '1500px')
+
+      return wait().then(() => {
+        $hook(filterHook).css('padding-left', '10px')
+        $hook(filterHook).css('padding-bottom', '1500px')
+      })
     })
 
     it('should call the handler displayFilter', function () {
