@@ -239,7 +239,7 @@ describe(test.label, function () {
       this.set('myHook', myHook)
       this.set('filterHook', filterHook)
 
-      return this.render(hbs`
+      this.render(hbs`
         {{frost-object-browser
           hook=myHook
           content=(component 'mock-content' class='mock-content')
@@ -247,12 +247,11 @@ describe(test.label, function () {
           filters=(component 'mock-filters' class='mock-filters' hook=filterHook)
         }}
       `)
+      $hook(filterHook).css('padding-left', '10px')
+      $hook(filterHook).css('padding-bottom', '1500px')
     })
 
     it('should call the handler displayFilter', function () {
-      $hook(filterHook).css('padding-left', '10px')
-      $hook(filterHook).css('padding-bottom', '1500px')
-
       $hook(myHook + '-scroll').trigger('mouseenter')
       expect($hook(myHook + '-scroll').find('.ps-scrollbar-y').height()).to.be.at.least(1)
     })
