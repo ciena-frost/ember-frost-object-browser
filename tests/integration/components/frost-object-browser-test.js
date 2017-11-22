@@ -252,6 +252,8 @@ describe(test.label, function () {
       return wait().then(() => {
         $hook(filterHook).css('padding-left', '10px')
         $hook(filterHook).css('padding-bottom', '1500px')
+
+        return wait()
       })
     })
 
