@@ -61,7 +61,7 @@
     "ember-frost-bunsen": "^16.0.1",
     "ember-frost-fields": "^6.0.1",
     "ember-frost-info-bar": "^10.0.0",
-    "ember-frost-list": "^7.0.0",
+    "ember-frost-list": "7.0.3",
     "ember-frost-popover": "^6.1.1",
     "ember-frost-sort": "^8.0.2",
     "ember-frost-tabs": "^6.0.2",
