@@ -1,3 +1,8 @@
+# 22.0.1 (2018-04-05)
+
+* moved dropdown outside the button because interactive elements inside interactive elements is not html5 compliant
+
+
 # 22.0.0 (2018-03-23)
 * **Updated** pull request template
 * **Added** issue template
