@@ -1,3 +1,8 @@
+# 25.0.1 (2018-07-20)
+
+* **Fixed** Travis API key.
+
+
 # 25.0.0 (2018-06-13)
 * **Updated** `ember-frost-bunsen` to version ^22.0.0`
 * **Added** `ember-cli-svgsore`
