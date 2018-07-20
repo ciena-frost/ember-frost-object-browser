@@ -1,3 +1,8 @@
+# 25.0.2 (2018-07-20)
+
+* Don't show the more button in `frost-action-bar` when there is only one control that would be shown in it
+
+
 # 25.0.1 (2018-07-20)
 
 * **Fixed** Travis API key.
