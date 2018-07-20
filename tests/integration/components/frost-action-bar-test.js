@@ -270,6 +270,33 @@ describe(test.label, function () {
       })
     })
 
+    describe('when there are 5 controls', function () {
+      beforeEach(function () {
+        this.render(hbs`
+          {{frost-action-bar
+            controls=(array
+              (component 'frost-button' class="test-button" text='button 1')
+              (component 'frost-button' class="test-button" text='button 2')
+              (component 'frost-button' class="test-button" text='button 3')
+              (component 'frost-button' class="test-button" text='button 4')
+              (component 'frost-button' class="test-button" text='button 5')
+            )
+            hook='bar'
+            hookQualifiers=(hash)
+            selectedItems=selectedItems
+          }}
+        `)
+      })
+
+      it('should allow more than 4 buttons', function () {
+        expect(this.$('.test-button').length).to.equal(5)
+      })
+
+      it('should not generate a "More..." button', function () {
+        expect($hook('moreActions').length).to.equal(0)
+      })
+    })
+
     describe('set to false', function () {
       beforeEach(function () {
         this.render(hbs`

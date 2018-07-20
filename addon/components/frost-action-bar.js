@@ -172,24 +172,26 @@ export default Component.extend({
    * sets controlsMap and controlsSliceIndex based on visible components and their arrangement
    */
   generateControlsMap () {
+    let renderedMoreButton = false
     // get an array mapping element text and visible state
     const controlsMap = this.$('.frost-action-bar-buttons > *, li > *')
       .toArray() // get as array
-      .filter(el => !/frost-more-button/.test(el.className)) // remove more... button from list
+      .filter(el => {
+        // remove more... button from list
+        if (/frost-more-button/.test(el.className)) {
+          renderedMoreButton = true
+          return false
+        }
+        return true
+      })
       .map(el => this.$(el).is(':visible') ? `${el.innerText.trim()}:visible` : el.innerText.trim())
 
-    // find slicepoint for controls
-    let controlCount = 0
     let controlsSliceIndex = 0
-    for (let i = controlsMap.length - 1; i >= 0; i--) {
-      if (/:visible$/.test(controlsMap[i])) {
-        controlCount++
-      }
+    const visibleControls = controlsMap.filter(item => /:visible$/.test(item))
 
-      if (controlCount === MAX_CONTROLS) {
-        controlsSliceIndex = i
-        break
-      }
+    // max controls + 1 because we don't want to show the more button when there would be only one item in it
+    if (visibleControls.length > MAX_CONTROLS + 1 || renderedMoreButton) {
+      controlsSliceIndex = controlsMap.length - MAX_CONTROLS
     }
 
     // if our map has changed set it and the new slice index
