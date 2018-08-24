@@ -336,9 +336,9 @@ describe(test.label, function () {
               (component 'frost-button' class="test-button" text='button 3')
               (component 'frost-button' class="test-button" text='button 4')
               (component 'frost-button' class="test-button" text='button 5')
+              (component 'frost-button' class="test-button" text='button 6')
             )
             moreActions=(array
-              (component 'frost-button' class="test-button" text='button 6')
               (component 'frost-button' class="test-button" text='button 7')
               (component 'frost-button' class="test-button" text='button 8')
               (component 'frost-button' class="test-button" text='button 9')
@@ -352,11 +352,11 @@ describe(test.label, function () {
 
       it('should put moreActions into moreActions button', function () {
         const $moreButton = $hook('moreActions')
-        expect($moreButton.find('li').length).to.equal(4)
+        expect($moreButton.find('li').length).to.equal(5)
       })
 
-      it('should not put any controls into the moreActions', function () {
-        expect($hook('frost-action-bar-buttons').children('.test-button').length).to.equal(5)
+      it('should put excess controls into the moreActions', function () {
+        expect($hook('frost-action-bar-buttons').children('.test-button').length).to.equal(4)
       })
     })
 
