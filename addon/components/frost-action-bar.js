@@ -121,6 +121,7 @@ export default Component.extend({
   _moreActions (controls, selectedItems, moreActions, controlsSliceIndex) {
     controls = this.getNormalizedControls(controls, selectedItems)
     moreActions = this.getNormalizedControls(moreActions, selectedItems)
+    const extraControls = controls.slice(0, controlsSliceIndex)
 
     // fail fast if we're told not use this feature
     if (moreActions === false) {
@@ -128,11 +129,11 @@ export default Component.extend({
 
     // get the extra controls if needed (default)
     } else if (moreActions === true) {
-      return controls.slice(0, controlsSliceIndex)
+      return extraControls
 
-    // passed in, return those
+    // passed in, return those with the extra controls
     } else {
-      return moreActions
+      return moreActions.concat(extraControls)
     }
   },
 
@@ -170,28 +171,22 @@ export default Component.extend({
   /**
    * generates controlsMap for organizing the buttons
    * sets controlsMap and controlsSliceIndex based on visible components and their arrangement
+   * @param {Number} moreActionsLength - length of passed in more actions
    */
-  generateControlsMap () {
-    let renderedMoreButton = false
+  generateControlsMap (moreActionsLength) {
     // get an array mapping element text and visible state
     const controlsMap = this.$('.frost-action-bar-buttons > *, li > *')
+      .not('.frost-more-button') // remove more... button from list
       .toArray() // get as array
-      .filter(el => {
-        // remove more... button from list
-        if (/frost-more-button/.test(el.className)) {
-          renderedMoreButton = true
-          return false
-        }
-        return true
-      })
+      .slice(moreActionsLength) // remove any passed in more actions
       .map(el => this.$(el).is(':visible') ? `${el.innerText.trim()}:visible` : el.innerText.trim())
 
-    let controlsSliceIndex = 0
-    const visibleControls = controlsMap.filter(item => /:visible$/.test(item))
+    // find slicepoint for controls
+    let {afterSliceIndex, controlCount, controlsSliceIndex} = this.getControlsSliceIndex(controlsMap)
 
-    // max controls + 1 because we don't want to show the more button when there would be only one item in it
-    if (visibleControls.length > MAX_CONTROLS + 1 || renderedMoreButton) {
-      controlsSliceIndex = controlsMap.length - MAX_CONTROLS
+    if (controlCount === MAX_CONTROLS + 1) {
+      // if there is only 1 more visible button we should just show it instead of putting 1 button under a more button
+      controlsSliceIndex = afterSliceIndex
     }
 
     // if our map has changed set it and the new slice index
@@ -200,6 +195,29 @@ export default Component.extend({
         controlsMap,
         controlsSliceIndex
       })
+    }
+  },
+
+  getControlsSliceIndex (controlsMap) {
+    let controlCount = 0
+    let controlsSliceIndex = 0
+    let afterSliceIndex = 0 // used to keep track of the one visible button (if it is present) after the slice index
+    for (let i = controlsMap.length - 1; i >= 0; i--) {
+      if (/:visible$/.test(controlsMap[i])) {
+        controlCount++
+
+        if (controlCount === MAX_CONTROLS) {
+          controlsSliceIndex = i
+        } else if (controlCount === MAX_CONTROLS + 1) {
+          afterSliceIndex = i
+        }
+      }
+    }
+
+    return {
+      controlsSliceIndex,
+      afterSliceIndex,
+      controlCount
     }
   },
 
@@ -226,14 +244,25 @@ export default Component.extend({
     }
   },
 
+  getMoreActionsLength (moreActions) {
+    if (typeOf(moreActions) === 'object') {
+      return Object.keys(moreActions).length
+    } else if (Array.isArray(moreActions)) {
+      return moreActions.length
+    }
+
+    return 0
+  },
+
   // == DOM Events ============================================================
 
   // == Lifecycle Hooks =======================================================
 
   didRender () {
+    const moreActions = this.get('moreActions')
     // fail fast if nothing to do
-    if (this.get('moreActions') === true) {
-      this.generateControlsMap()
+    if (moreActions !== false && !isEmpty(moreActions)) {
+      this.generateControlsMap(this.getMoreActionsLength(moreActions))
     }
   }
 
