@@ -1,3 +1,7 @@
+# 25.0.3 (2018-08-24)
+
+* Fix excess controls not being put under more button when there are passed in more actions
+
 # 25.0.2 (2018-07-20)
 
 * Don't show the more button in `frost-action-bar` when there is only one control that would be shown in it
