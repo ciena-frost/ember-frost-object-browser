@@ -1,3 +1,7 @@
+# 25.0.4 (2018-09-12)
+
+* Fix excess controls not being put under more button when there are passed in more actions
+
 # 25.0.3 (2018-08-24)
 
 * Fix excess controls not being put under more button when there are passed in more actions

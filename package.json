@@ -1,6 +1,6 @@
 {
   "name": "ember-frost-object-browser",
-  "version": "25.0.3",
+  "version": "25.0.4",
   "description": "Object browser addon for ember apps.",
   "directories": {
     "doc": "doc",
