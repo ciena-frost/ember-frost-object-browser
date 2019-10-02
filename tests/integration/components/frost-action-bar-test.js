@@ -1,3 +1,4 @@
+import { findAll, find } from '@ember/test-helpers';
 /**
  * Integration test for the frost-action-bar component
  */
@@ -213,7 +214,7 @@ describe(test.label, function () {
     })
 
     it('should render with the provided loading text', function () {
-      expect(this.$('.frost-action-bar-loading .loading-text').text()).to.equal('Loading actions')
+      expect(find('.frost-action-bar-loading .loading-text').textContent).to.equal('Loading actions')
     })
   })
 
@@ -289,7 +290,7 @@ describe(test.label, function () {
       })
 
       it('should allow more than 4 buttons', function () {
-        expect(this.$('.test-button').length).to.equal(5)
+        expect(findAll('.test-button').length).to.equal(5)
       })
 
       it('should not generate a "More..." button', function () {
@@ -317,7 +318,7 @@ describe(test.label, function () {
       })
 
       it('should allow more than 4 buttons', function () {
-        expect(this.$('.test-button').length).to.equal(5)
+        expect(findAll('.test-button').length).to.equal(5)
       })
 
       it('should not generate a "More..." button', function () {

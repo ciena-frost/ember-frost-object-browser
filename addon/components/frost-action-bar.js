@@ -175,11 +175,10 @@ export default Component.extend({
    */
   generateControlsMap (moreActionsLength) {
     // get an array mapping element text and visible state
-    const controlsMap = this.$('.frost-action-bar-buttons > *, li > *')
-      .not('.frost-more-button') // remove more... button from list
+    const controlsMap = this.element.querySelectorAll('.frost-action-bar-buttons > *, li > *').forEach(el => el.addEventListener('.frost-more-button'))
       .toArray() // get as array
       .slice(moreActionsLength) // remove any passed in more actions
-      .map(el => this.$(el).is(':visible') ? `${el.innerText.trim()}:visible` : el.innerText.trim())
+      .map(el => this.element.querySelectorAll(el).forEach(el => el.addEventListener(':visible')) ? `${el.innerText.trim()}:visible` : el.innerText.trim())
 
     // find slicepoint for controls
     let {afterSliceIndex, controlCount, controlsSliceIndex} = this.getControlsSliceIndex(controlsMap)
